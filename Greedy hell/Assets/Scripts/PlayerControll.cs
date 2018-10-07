@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerControll : MonoBehaviour {
+public class PlayerControll : CharacterProperty {
 
-    [SerializeField]
-    private float moveSpeed = 3.0f;
     private float v, h;
 
 	// Use this for initialization
