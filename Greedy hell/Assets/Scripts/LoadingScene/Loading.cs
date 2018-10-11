@@ -16,29 +16,11 @@ public class Loading : MonoBehaviour
     [SerializeField]
     private Image blackMask;
 
-    bool m_Fading=false;
-
-    private void Update()
+    private void OnEnable()
     {
-        if (m_Fading == true)
-        {
-            //Fully fade in Image (1) with the duration of 2
+        blackMask.gameObject.SetActive(true);
+        StartCoroutine(GradientHide());
 
-            blackMask.CrossFadeAlpha(1f, 3.0f, false);
-
-        }
-        ////If the toggle is false, fade out to nothing (0) the Image with a duration of 2
-        //if (m_Fading == false)
-        //{
-        //    blackMask.CrossFadeAlpha(0, 2.0f, false);
-
-        //}
-
-    }
-    void OnGUI()
-    {
-        //Fetch the Toggle's state
-        m_Fading = GUI.Toggle(new Rect(0, 0, 100, 30), m_Fading, "Fade In/Out");
     }
 
     public void StartGame(string sceneName)
@@ -61,7 +43,7 @@ public class Loading : MonoBehaviour
 
         async.allowSceneActivation = false;
 
-        yield return Gradient();
+        yield return GradientShow();
 
         if (async.progress == 0.9f)
         {
@@ -71,10 +53,25 @@ public class Loading : MonoBehaviour
         yield return async;
     }
 
-    IEnumerator Gradient()
+    IEnumerator GradientShow()
     {
-        m_Fading = true;
+        while (blackMask.color.a < 1f)
+        {
+            blackMask.color += new Color(0, 0, 0, 0.1f);
 
-        yield return  new WaitForSeconds(3f);
+            yield return new WaitForSeconds(0.05f);
+        }
+     
     }
+    IEnumerator GradientHide()
+    {
+        while (blackMask.color.a > 0f)
+        {
+            blackMask.color -= new Color(0, 0, 0, 0.1f);
+
+            yield return new WaitForSeconds(0.05f);
+        }
+        blackMask.gameObject.SetActive(false);
+    }
+
 }
