@@ -68,5 +68,7 @@ public class RockerController : MonoBehaviour, IDragHandler, IEndDragHandler
         movePointBall.transform.localPosition = Vector2.zero;
         //click = false;
         isFirstSetPos = true;
+
+        
     }
 }
