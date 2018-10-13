@@ -18,4 +18,9 @@ public class PlayerControll : CharacterProperty {
 
         transform.Translate(new Vector3(h, v, 0) * moveSpeed * Time.deltaTime);
 	}
+
+    public void Move(Vector2 dir)
+    {
+        transform.Translate(dir.normalized*moveSpeed*Time.fixedDeltaTime);
+    }
 }

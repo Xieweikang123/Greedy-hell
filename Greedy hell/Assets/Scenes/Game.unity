@@ -356,7 +356,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 184, y: 178.6}
-  m_SizeDelta: {x: 335.8, y: 335.8}
+  m_SizeDelta: {x: 335.80005, y: 335.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1026229518
 MonoBehaviour:
@@ -403,6 +403,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adc1c031d2c27e41af3619d71ba08c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  virtualRocker: {fileID: 1026229516}
+  movePointBall: {fileID: 1074408335}
+  playerController: {fileID: 1414277078}
 --- !u!1 &1059695333
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,10 +451,10 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -466,8 +469,8 @@ Canvas:
   m_GameObject: {fileID: 1059695333}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 519420031}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -545,7 +548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.54013884, g: 0.9622642, b: 0.9622642, a: 1}
+  m_Color: {r: 0, g: 0.91090965, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

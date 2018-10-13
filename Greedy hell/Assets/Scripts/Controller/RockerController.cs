@@ -4,35 +4,69 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class RockerController :MonoBehaviour, IDragHandler,IEndDragHandler
+public class RockerController : MonoBehaviour, IDragHandler, IEndDragHandler
 {
-    private float JoyStickRadius = 50;   //摇杆最大半径
+    [SerializeField]
+    private GameObject virtualRocker;
+    [SerializeField]
+    private GameObject movePointBall;
 
-    private RectTransform selfTransform;// 当前物体的Transform组件
+    [SerializeField]
+    private PlayerControll playerController;
 
-    private bool isTouched = false;// 是否触摸了虚拟摇杆
+    private bool isFirstSetPos = true;    //用于虚拟球定位
 
-    private Vector2 originPosition; //虚拟摇杆默认位置
-    //虚拟摇杆移动方向
-    private Vector2 touchedAxis;
+    private Vector3 dir;
+    private Vector3 normalPosition; //初始位置
 
-    public Vector2 TouchedAxis
+    private float virtualBallradious;//虚拟球运动半径
+
+    //private bool isDraging = false;     //是否处于拖拽状态 
+
+    private void Start()
     {
-        get
-        {
-            if (touchedAxis.magnitude < JoyStickRadius)
-                return touchedAxis.normalized / JoyStickRadius;
-            return touchedAxis.normalized;
-        }
+        normalPosition = virtualRocker.transform.localPosition;
+
+        virtualBallradious = virtualRocker.GetComponent<RectTransform>().rect.width / 2;
+    }
+
+    private void FixedUpdate()
+    {
+        if(!isFirstSetPos)
+             playerController.Move(dir);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log(eventData.pointerDrag);
+
+        Vector3 point;
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(movePointBall.GetComponent<RectTransform>(), eventData.position, Camera.main, out point))
+        {
+            movePointBall.transform.position = point;
+            dir = point - virtualRocker.transform.position;
+
+            //限制虚拟球运动范围
+            if (movePointBall.transform.localPosition.magnitude >= virtualBallradious)
+            {
+                movePointBall.transform.localPosition = dir.normalized * virtualBallradious;
+            }
+
+            //首次定位
+            if (isFirstSetPos)
+            {
+                isFirstSetPos = false;
+                virtualRocker.transform.position = point;
+            }
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        //throw new System.NotImplementedException();
+        //虚拟球复位
+        virtualRocker.transform.localPosition = normalPosition;
+
+        movePointBall.transform.localPosition = Vector2.zero;
+        //click = false;
+        isFirstSetPos = true;
     }
 }
