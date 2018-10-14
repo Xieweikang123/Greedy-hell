@@ -14,7 +14,7 @@ public class RockerController : MonoBehaviour, IDragHandler, IEndDragHandler
     [SerializeField]
     private PlayerControll playerController;
 
-    private bool isFirstSetPos = true;    //用于虚拟球定位
+    private bool isFirstSetPos = true;    //第一次设置虚拟摇杆位置
 
     private Vector3 dir;
     private Vector3 normalPosition; //初始位置
@@ -69,6 +69,7 @@ public class RockerController : MonoBehaviour, IDragHandler, IEndDragHandler
         //click = false;
         isFirstSetPos = true;
 
+        playerController.animator.speed = 0;
         
     }
 }
