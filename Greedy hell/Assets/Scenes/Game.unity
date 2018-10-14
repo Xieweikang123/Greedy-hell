@@ -806,6 +806,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
+  playerState: 0
+  animator: {fileID: 0}
 --- !u!58 &1414277079
 CircleCollider2D:
   m_ObjectHideFlags: 0

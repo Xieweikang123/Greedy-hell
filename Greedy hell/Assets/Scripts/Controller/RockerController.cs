@@ -69,7 +69,6 @@ public class RockerController : MonoBehaviour, IDragHandler, IEndDragHandler
         //click = false;
         isFirstSetPos = true;
 
-        playerController.animator.speed = 0;
         
     }
 }

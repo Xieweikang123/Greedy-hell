@@ -4,19 +4,15 @@ using UnityEngine;
 
 public class EnumManager
 {
-
-    private static EnumManager _instance;
-
-    public EnumManager Instance
+    //角色朝向
+    public enum RoleToward
     {
-        get
-        {
-            if (_instance == null)
-                _instance = this;
-            return _instance;
-        }
+        Up,
+        Down,
+        Left,
+        Right
     }
-
+    //玩家状态
     public enum PlayerState
     {
         Idle,
@@ -24,6 +20,9 @@ public class EnumManager
         WalkDown,
         WalkLeft,
         WalkRight,
-        Attack
+        //AtkUp,
+        //AtkDown,
+        //AtkLeft,
+        //AtkRight
     }
 }

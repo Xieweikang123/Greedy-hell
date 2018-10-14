@@ -6,6 +6,8 @@ public class PlayerControll : CharacterProperty
 {
     public EnumManager.PlayerState playerState = EnumManager.PlayerState.Idle;
 
+    private EnumManager.RoleToward playerToward = EnumManager.RoleToward.Down;
+
     private float v, h;
 
     public Animator animator;
@@ -22,24 +24,23 @@ public class PlayerControll : CharacterProperty
         v = Input.GetAxis("Vertical");
         h = Input.GetAxis("Horizontal");
 
+
+
         if (v == 0 && h == 0)
         {
-           
-            animator.speed = 0;
-            print(playerState.ToString());
-           // animator.CrossFade("Warrior"+playerState.ToString(), 1f,0);
-            animator.CrossFadeInFixedTime("Warrior" + playerState.ToString(), 0f, 0);
-           // print(animator);
-            return;
-        }
-        JudgeDir(h, v);
-        transform.Translate(new Vector3(h, v, 0) * moveSpeed * Time.deltaTime);
 
-        ////如果键盘移动键抬起，将状态置为idle
-        //if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
-        //{
-        //   // animator.speed = 0;
-        //}
+            //animator.CrossFadeInFixedTime("Warrior" + playerState.ToString(), 0f, 0);
+        }
+        else
+        {
+            JudgeDir(h, v);
+            transform.Translate(new Vector3(h, v, 0) * moveSpeed * Time.deltaTime);
+        }
+        //如果按下J，攻击
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            PlayATKAnimByToward();
+        }
 #endif
         SetAnim();
     }
@@ -56,7 +57,6 @@ public class PlayerControll : CharacterProperty
     /// </summary>
     private void JudgeDir(float h, float v)
     {
-        animator.speed = 1.0f;
 
         //水平大于竖直位移
         if (Mathf.Abs(v) < Mathf.Abs(h))
@@ -65,10 +65,12 @@ public class PlayerControll : CharacterProperty
             if (h > 0)
             {
                 playerState = EnumManager.PlayerState.WalkRight;
+                playerToward = EnumManager.RoleToward.Right;
             }
             else
             {
                 playerState = EnumManager.PlayerState.WalkLeft;
+                playerToward = EnumManager.RoleToward.Left;
             }
         }
         else
@@ -77,10 +79,12 @@ public class PlayerControll : CharacterProperty
             if (v > 0)
             {
                 playerState = EnumManager.PlayerState.WalkUp;
+                playerToward = EnumManager.RoleToward.Up;
             }
             else
             {
                 playerState = EnumManager.PlayerState.WalkDown;
+                playerToward = EnumManager.RoleToward.Down;
             }
         }
     }
@@ -126,6 +130,22 @@ public class PlayerControll : CharacterProperty
 
         animator.SetBool(playerState.ToString(), true);
 
+    }
+    //根据角色朝向播放不同方位的攻击动画
+    private void PlayATKAnimByToward()
+    {
+        switch (playerToward)
+        {
+            case EnumManager.RoleToward.Up:
+                animator.SetTrigger("ATKUp");
+                break;
+            case EnumManager.RoleToward.Down:
+                animator.SetTrigger("ATKDown");
+                break;
+            case EnumManager.RoleToward.Left: animator.SetTrigger("ATKLeft"); break;
+            case EnumManager.RoleToward.Right: animator.SetTrigger("ATKRight"); break;
+            default: Debug.LogError("未知朝向"); break;
+        }
     }
 
 }
